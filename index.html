@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crete Paradise - Your 3-Day Adventure</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            position: relative;
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1920') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(30, 144, 255, 0.5), rgba(255, 100, 150, 0.3));
+            backdrop-filter: brightness(0.8);
+        }
+
+        .header-content {
+            position: relative;
+            text-align: center;
+            color: white;
+            z-index: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Tab Navigation */
+        .tab-container {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 2rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .tab-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .tab-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Time Period Sections */
+        .day-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .time-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #667eea, #764ba2) 1;
+        }
+
+        .time-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd89b, #19547b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .time-title {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Activity Cards */
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .activity-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            background: white;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .activity-card.selected {
+            border: 3px solid #667eea;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .activity-card.selected::after {
+            content: '✓ Selected';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 10;
+            animation: slideIn 0.3s ease;
+        }
+
+        .activity-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .activity-card:hover .activity-image {
+            transform: scale(1.1);
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+        }
+
+        .activity-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .activity-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .activity-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .activity-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .pros, .cons {
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .pros li::before {
+            content: '✓ ';
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cons li::before {
+            content: '× ';
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Travel Info */
+        .travel-info {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .travel-info.active {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .travel-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Map Container */
+        .map-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .map-header {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        #map-day1, #map-day2, #map-day3 {
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Rating Stars */
+        .rating {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .activities {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Crete Paradise Adventure</h1>
+            <p>3 Days of Sun, Culture & Unforgettable Memories</p>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-container">
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('day1')">
+                <span>🌅 Day 1: West Coast Wonders</span>
+            </button>
+            <button class="tab-button" onclick="showTab('day2')">
+                <span>🏛️ Day 2: Culture & Beaches</span>
+            </button>
+            <button class="tab-button" onclick="showTab('day3')">
+                <span>🏖️ Day 3: Hidden Gems</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Day 1 Content -->
+    <div id="day1" class="tab-content active">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day1', 'morning', 'primary', this)">
+                    <img src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/0b/96/c6/64.jpg" alt="Balos Lagoon" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Balos Lagoon</h3>
+                        <p class="activity-description">Paradise beach with turquoise waters and pink sand. One of Crete's most photographed locations.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 59km from hotel</div>
+                            <div class="detail-item">🚗 1h 10min drive</div>
+                            <div class="detail-item">🥾 20min walk to beach</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Iconic pink sand beach</li>
+                                    <li>Incredible photo opportunities</li>
+                                    <li>Less crowded in morning</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Rough dirt road access</li>
+                                    <li>20min walk required</li>
+                                    <li>Can get very hot</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Balos+Lagoon+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g1190420-d668907-Reviews-Balos_Lagoon-Kissamos_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day1', 'morning', 'secondary', this)">
+                    <img src="https://www.worldhistory.org/img/r/p/1500x1500/10570.jpg.webp?v=1599154202" alt="Ancient Aptera" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Ancient Aptera Archaeological Site</h3>
+                        <p class="activity-description">Impressive ancient city ruins with spectacular views over Souda Bay. Roman cisterns and theater.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 15km from hotel</div>
+                            <div class="detail-item">🚗 20min drive</div>
+                            <div class="detail-item">🏛️ Easy walking</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Much closer to hotel</li>
+                                    <li>Rich historical site</li>
+                                    <li>Easier accessibility</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No beach experience</li>
+                                    <li>Less photogenic</li>
+                                    <li>Can be very hot</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Ancient+Aptera+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g635613-d2438574-Reviews-Ancient_Aptera-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day1-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day1', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1598534891041-48e66b9e6903?w=600" alt="Falassarna Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Falassarna Beach</h3>
+                        <p class="activity-description">Award-winning beach with golden sand and crystal-clear waters. Perfect for swimming and relaxation.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 52km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🏖️ Beach facilities</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Excellent facilities</li>
+                                    <li>Wide sandy beach</li>
+                                    <li>Great for swimming</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Can be windy</li>
+                                    <li>More touristy</li>
+                                    <li>Limited shade</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Falassarna+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g3380298-d668914-Reviews-Falassarna_Beach-Falassarna_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day1', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1605288542965-1e1c40e5a66e?w=600" alt="Stavros Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Stavros Beach (Zorba Beach)</h3>
+                        <p class="activity-description">Famous from "Zorba the Greek" movie. Sheltered cove with calm waters, perfect for families.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 17km from hotel</div>
+                            <div class="detail-item">🚗 25min drive</div>
+                            <div class="detail-item">🏖️ Calm waters</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Much closer location</li>
+                                    <li>Protected from wind</li>
+                                    <li>Movie history charm</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Smaller beach area</li>
+                                    <li>Can get crowded</li>
+                                    <li>Less dramatic scenery</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Stavros+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g1081329-d7101491-Reviews-Stavros_Beach-Stavros_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day1-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day1-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day1', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1555993539-1732b0258235?w=600" alt="Chania Old Town" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Chania Old Town & Venetian Harbor</h3>
+                        <p class="activity-description">Romantic dinner at the Venetian Harbor with sunset views. Traditional tavernas and historic atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 7km from hotel</div>
+                            <div class="detail-item">🚗 15min drive</div>
+                            <div class="detail-item">🌅 Perfect sunset spot</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Many restaurant options</li>
+                                    <li>Beautiful historic setting</li>
+                                    <li>Lighthouse sunset views</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Tourist prices</li>
+                                    <li>Parking challenges</li>
+                                    <li>Can be crowded</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Chania+Old+Town+Venetian+Harbor" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d190728-Reviews-Old_Venetian_Harbor-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day1', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1579632652768-6823500d742a?w=600" alt="Platanias Village" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Platanias Village Tavernas</h3>
+                        <p class="activity-description">Authentic local tavernas with traditional Cretan cuisine. Less touristy, more local atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 3km from hotel</div>
+                            <div class="detail-item">🚗 8min drive</div>
+                            <div class="detail-item">🍽️ Local cuisine</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Very close to hotel</li>
+                                    <li>Authentic local prices</li>
+                                    <li>Less crowded</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Less scenic setting</li>
+                                    <li>No harbor views</li>
+                                    <li>Fewer options</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Platanias+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g1187866-Platanias_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 1 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 1 Route</h3>
+            <div id="map-day1"></div>
+        </div>
+    </div>
+
+    <!-- Day 2 Content -->
+    <div id="day2" class="tab-content">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day2', 'morning', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?w=600" alt="Elafonissi Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Elafonissi Beach</h3>
+                        <p class="activity-description">World-famous pink sand beach with shallow turquoise lagoons. Protected nature reserve with unique beauty.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 75km from hotel</div>
+                            <div class="detail-item">🚗 1h 30min drive</div>
+                            <div class="detail-item">🏖️ Pink sand paradise</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Unique pink sand</li>
+                                    <li>Shallow water perfect for swimming</li>
+                                    <li>Must-see destination</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Longest drive</li>
+                                    <li>Can be very crowded</li>
+                                    <li>Limited shade</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Elafonissi+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g2638785-d671770-Reviews-Elafonissi_Beach-Elafonissi_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day2', 'morning', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1601581987809-a874a81309c9?w=600" alt="Arkadi Monastery" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Arkadi Monastery</h3>
+                        <p class="activity-description">Historic 16th-century monastery with beautiful architecture and profound significance in Cretan history.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 50km from hotel</div>
+                            <div class="detail-item">🚗 50min drive</div>
+                            <div class="detail-item">🏛️ Cultural heritage</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Rich cultural experience</li>
+                                    <li>Stunning architecture</li>
+                                    <li>Mountain scenery</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No beach time</li>
+                                    <li>Inland location</li>
+                                    <li>Religious site rules</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Arkadi+Monastery+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g1190498-d243361-Reviews-Arkadi_Monastery-Arkadi_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day2-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day2', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590933263299-b7afc08dd594?w=600" alt="Kedrodasos Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Kedrodasos Beach</h3>
+                        <p class="activity-description">Wild beach near Elafonissi with juniper trees providing natural shade. Untouched natural beauty.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 77km from hotel</div>
+                            <div class="detail-item">🚗 1h 35min drive</div>
+                            <div class="detail-item">🌲 Natural shade</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Natural shade from trees</li>
+                                    <li>Less crowded</li>
+                                    <li>Wild, untouched beauty</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No facilities</li>
+                                    <li>Rough access road</li>
+                                    <li>10min walk required</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Kedrodasos+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d4878234-Reviews-Kedrodasos_Beach-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day2', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?w=600" alt="Rethymno" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Rethymno Old Town & Fortress</h3>
+                        <p class="activity-description">Well-preserved Venetian old town with fortress views. Charming streets and local shops.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 54km from hotel</div>
+                            <div class="detail-item">🚗 45min drive</div>
+                            <div class="detail-item">🏰 Historic fortress</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Rich history and culture</li>
+                                    <li>Shopping opportunities</li>
+                                    <li>Fortress panoramic views</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No beach experience</li>
+                                    <li>Can be hot walking</li>
+                                    <li>Tourist prices</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Rethymno+Old+Town+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189418-d195326-Reviews-Rethymno_Old_Town-Rethymnon_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day2-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day2-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day2', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1562679300-07f5c201dee7?w=600" alt="Sfinari Village" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Sfinari Village Seaside Taverna</h3>
+                        <p class="activity-description">Remote fishing village with authentic seafood tavernas. Spectacular sunset views over the sea.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 60km from hotel</div>
+                            <div class="detail-item">🚗 1h 10min drive</div>
+                            <div class="detail-item">🌅 Sunset dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Authentic local experience</li>
+                                    <li>Fresh seafood</li>
+                                    <li>Stunning sunset location</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Remote location</li>
+                                    <li>Limited options</li>
+                                    <li>Winding mountain road</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Sfinari+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g12447761-Sfinari_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day2', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1520531080851-b53938863a1b?w=600" alt="Kolymvari" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Kolymvari Waterfront Restaurants</h3>
+                        <p class="activity-description">Seaside town with traditional tavernas along the waterfront. Closer option with good local food.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 23km from hotel</div>
+                            <div class="detail-item">🚗 30min drive</div>
+                            <div class="detail-item">🍽️ Waterfront dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Much closer to hotel</li>
+                                    <li>More restaurant choices</li>
+                                    <li>Easier access</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Less dramatic scenery</li>
+                                    <li>More touristy</li>
+                                    <li>Busier atmosphere</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Kolymvari+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g1189463-Kolymvari_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 2 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 2 Route</h3>
+            <div id="map-day2"></div>
+        </div>
+    </div>
+
+    <!-- Day 3 Content -->
+    <div id="day3" class="tab-content">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day3', 'morning', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1585828922344-7909af339e7f?w=600" alt="Samaria Gorge" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Samaria Gorge (Short Trail)</h3>
+                        <p class="activity-description">Walk the first 2km of Europe's longest gorge. Spectacular scenery without the full 16km hike.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 42km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🥾 4km total walk</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Iconic natural wonder</li>
+                                    <li>Spectacular views</li>
+                                    <li>Manageable distance</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Entry fee required</li>
+                                    <li>Early start needed</li>
+                                    <li>Uphill return walk</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Samaria+Gorge+Entrance+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g4219393-d195373-Reviews-Samaria_Gorge_National_Park-Samaria_Gorge_National_Park_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day3', 'morning', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1541689221361-5ea61e6249fe?w=600" alt="Botanical Park" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Botanical Park & Gardens of Crete</h3>
+                        <p class="activity-description">20-hectare botanical garden with plants from around the world. Easy walking trails with mountain views.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 18km from hotel</div>
+                            <div class="detail-item">🚗 25min drive</div>
+                            <div class="detail-item">🌺 2km easy trail</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Much closer location</li>
+                                    <li>Easy walking paths</li>
+                                    <li>Restaurant on site</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Less dramatic scenery</li>
+                                    <li>Entry fee required</li>
+                                    <li>More cultivated nature</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Botanical+Park+Gardens+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d2235805-Reviews-Botanical_Park_Gardens_Of_Crete-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day3-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day3', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600" alt="Seitan Limania" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Seitan Limania Beach</h3>
+                        <p class="activity-description">Stunning hidden cove with turquoise waters. Instagram-famous beach with dramatic cliffs.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 20km from hotel</div>
+                            <div class="detail-item">🚗 30min drive</div>
+                            <div class="detail-item">⚠️ Steep path down</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Incredibly photogenic</li>
+                                    <li>Crystal clear water</li>
+                                    <li>Unique landscape</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Very steep access</li>
+                                    <li>No facilities</li>
+                                    <li>Can be dangerous</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Seitan+Limania+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d8551647-Reviews-Seitan_Limania_Beach-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day3', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1583037189850-b5598e0abe82?w=600" alt="Loutraki Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Loutraki Beach</h3>
+                        <p class="activity-description">Peaceful beach with clear waters near Chania. Family-friendly with easy access and tavernas.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 15km from hotel</div>
+                            <div class="detail-item">🚗 20min drive</div>
+                            <div class="detail-item">🏖️ Easy access</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Easy accessibility</li>
+                                    <li>Beach facilities</li>
+                                    <li>Family-friendly</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Less dramatic scenery</li>
+                                    <li>More developed</li>
+                                    <li>Can be windy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Loutraki+Beach+Chania+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g10798605-d10798593-Reviews-Loutraki_Beach-Loutraki_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day3-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day3-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day3', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1555992457-9fb7a7a85f48?w=600" alt="Tersanas" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Tersanas Traditional Village</h3>
+                        <p class="activity-description">Tiny fishing village with waterfront taverna. Perfect sunset spot with authentic local atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 10km from hotel</div>
+                            <div class="detail-item">🚗 15min drive</div>
+                            <div class="detail-item">🌅 Waterfront sunset</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Very close to hotel</li>
+                                    <li>Authentic atmosphere</li>
+                                    <li>Beautiful sunset views</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Limited dining options</li>
+                                    <li>Very small village</li>
+                                    <li>Early closing times</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Tersanas+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g6852422-Tersanas_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day3', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1544124065-64395f6642c9?w=600" alt="Kalathas" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Kalathas Beach Tavernas</h3>
+                        <p class="activity-description">Beachfront restaurants with traditional cuisine. Family-friendly atmosphere with sunset views.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 11km from hotel</div>
+                            <div class="detail-item">🚗 18min drive</div>
+                            <div class="detail-item">🍽️ Beach dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>More restaurant choices</li>
+                                    <li>Sandy beach setting</li>
+                                    <li>Protected bay location</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>More touristy</li>
+                                    <li>Higher prices</li>
+                                    <li>Busier atmosphere</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Kalathas+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g1081327-d3369046-Reviews-Kalathas_Beach-Kalathas_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 3 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 3 Route</h3>
+            <div id="map-day3"></div>
+        </div>
+    </div>
+
+    <script>
+        // Activity selection state
+        const selectedActivities = {
+            day1: { morning: null, afternoon: null, evening: null },
+            day2: { morning: null, afternoon: null, evening: null },
+            day3: { morning: null, afternoon: null, evening: null }
+        };
+
+        // Location coordinates
+        const locations = {
+            hotel: { lat: 35.5138, lng: 24.0180, name: "TUI SUNEO Althea Village" },
+            // Day 1
+            balos: { lat: 35.5823, lng: 23.5886, name: "Balos Lagoon" },
+            aptera: { lat: 35.4613, lng: 24.1389, name: "Ancient Aptera" },
+            falassarna: { lat: 35.4977, lng: 23.5798, name: "Falassarna Beach" },
+            stavros: { lat: 35.5894, lng: 24.0933, name: "Stavros Beach" },
+            chania: { lat: 35.5138, lng: 24.0180, name: "Chania Old Town" },
+            platanias: { lat: 35.5117, lng: 23.9018, name: "Platanias Village" },
+            // Day 2
+            elafonissi: { lat: 35.2717, lng: 23.5414, name: "Elafonissi Beach" },
+            arkadi: { lat: 35.3097, lng: 24.6291, name: "Arkadi Monastery" },
+            kedrodasos: { lat: 35.2666, lng: 23.5590, name: "Kedrodasos Beach" },
+            rethymno: { lat: 35.3644, lng: 24.4821, name: "Rethymno Old Town" },
+            sfinari: { lat: 35.4080, lng: 23.5648, name: "Sfinari Village" },
+            kolymvari: { lat: 35.5464, lng: 23.7881, name: "Kolymvari" },
+            // Day 3
+            samaria: { lat: 35.2558, lng: 23.9619, name: "Samaria Gorge" },
+            botanical: { lat: 35.4206, lng: 23.9147, name: "Botanical Park" },
+            seitan: { lat: 35.5742, lng: 24.0731, name: "Seitan Limania" },
+            loutraki: { lat: 35.5253, lng: 24.0831, name: "Loutraki Beach" },
+            tersanas: { lat: 35.5269, lng: 24.0894, name: "Tersanas Village" },
+            kalathas: { lat: 35.5575, lng: 24.0869, name: "Kalathas Beach" }
+        };
+
+        // Activity location mapping
+        const activityLocations = {
+            day1: {
+                morning: { primary: 'balos', secondary: 'aptera' },
+                afternoon: { primary: 'falassarna', secondary: 'stavros' },
+                evening: { primary: 'chania', secondary: 'platanias' }
+            },
+            day2: {
+                morning: { primary: 'elafonissi', secondary: 'arkadi' },
+                afternoon: { primary: 'kedrodasos', secondary: 'rethymno' },
+                evening: { primary: 'sfinari', secondary: 'kolymvari' }
+            },
+            day3: {
+                morning: { primary: 'samaria', secondary: 'botanical' },
+                afternoon: { primary: 'seitan', secondary: 'loutraki' },
+                evening: { primary: 'tersanas', secondary: 'kalathas' }
+            }
+        };
+
+        // Travel information
+        const travelInfo = {
+            'balos-falassarna': { distance: '15km', time: '25min', terrain: 'Coastal road' },
+            'balos-stavros': { distance: '52km', time: '1h', terrain: 'Mountain & coastal' },
+            'aptera-falassarna': { distance: '45km', time: '50min', terrain: 'Highway & coastal' },
+            'aptera-stavros': { distance: '7km', time: '12min', terrain: 'Local roads' },
+            'falassarna-chania': { distance: '45km', time: '50min', terrain: 'Coastal road' },
+            'falassarna-platanias': { distance: '49km', time: '55min', terrain: 'Coastal road' },
+            'stavros-chania': { distance: '15km', time: '22min', terrain: 'Local roads' },
+            'stavros-platanias': { distance: '19km', time: '25min', terrain: 'Local roads' },
+            'elafonissi-kedrodasos': { distance: '2km', time: '5min', terrain: 'Dirt road' },
+            'elafonissi-rethymno': { distance: '95km', time: '2h', terrain: 'Mountain roads' },
+            'arkadi-kedrodasos': { distance: '120km', time: '2h 20min', terrain: 'Mountain & coastal' },
+            'arkadi-rethymno': { distance: '23km', time: '30min', terrain: 'Local roads' },
+            'kedrodasos-sfinari': { distance: '20km', time: '35min', terrain: 'Mountain road' },
+            'kedrodasos-kolymvari': { distance: '55km', time: '1h 10min', terrain: 'Coastal road' },
+            'rethymno-sfinari': { distance: '75km', time: '1h 30min', terrain: 'Highway & mountain' },
+            'rethymno-kolymvari': { distance: '35km', time: '40min', terrain: 'Highway' },
+            'samaria-seitan': { distance: '55km', time: '1h 15min', terrain: 'Mountain & coastal' },
+            'samaria-loutraki': { distance: '50km', time: '1h 10min', terrain: 'Mountain roads' },
+            'botanical-seitan': { distance: '15km', time: '25min', terrain: 'Local roads' },
+            'botanical-loutraki': { distance: '10km', time: '18min', terrain: 'Local roads' },
+            'seitan-tersanas': { distance: '11km', time: '18min', terrain: 'Coastal road' },
+            'seitan-kalathas': { distance: '9km', time: '15min', terrain: 'Coastal road' },
+            'loutraki-tersanas': { distance: '8km', time: '12min', terrain: 'Local roads' },
+            'loutraki-kalathas': { distance: '6km', time: '10min', terrain: 'Local roads' }
+        };
+
+        // Initialize maps
+        let maps = {};
+
+        function initializeMaps() {
+            ['day1', 'day2', 'day3'].forEach(day => {
+                const mapId = `map-${day}`;
+                maps[day] = L.map(mapId).setView([locations.hotel.lat, locations.hotel.lng], 10);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(maps[day]);
+
+                // Add hotel marker
+                L.marker([locations.hotel.lat, locations.hotel.lng])
+                    .addTo(maps[day])
+                    .bindPopup('<strong>Your Hotel</strong><br>TUI SUNEO Althea Village');
+            });
+        }
+
+        // Select activity function
+        function selectActivity(day, period, type, element) {
+            // Remove previous selection for this period
+            const cards = element.parentElement.querySelectorAll('.activity-card');
+            cards.forEach(card => card.classList.remove('selected'));
+            
+            // Add selection to clicked card
+            element.classList.add('selected');
+            
+            // Update state
+            selectedActivities[day][period] = type;
+            
+            // Update travel info
+            updateTravelInfo(day, period);
+            
+            // Update map
+            updateMap(day);
+        }
+
+        // Update travel information
+        function updateTravelInfo(day, period) {
+            // Update afternoon travel info if morning OR afternoon activity changes
+            const morningActivity = selectedActivities[day].morning;
+            const afternoonActivity = selectedActivities[day].afternoon;
+            
+            if (morningActivity && afternoonActivity) {
+                const morningLoc = activityLocations[day].morning[morningActivity];
+                const afternoonLoc = activityLocations[day].afternoon[afternoonActivity];
+                const key = `${morningLoc}-${afternoonLoc}`;
+                
+                const info = travelInfo[key] || { distance: 'N/A', time: 'N/A', terrain: 'N/A' };
+                
+                document.getElementById(`${day}-afternoon-distance`).textContent = info.distance;
+                document.getElementById(`${day}-afternoon-time`).textContent = info.time;
+                document.getElementById(`${day}-afternoon-terrain`).textContent = info.terrain;
+                document.getElementById(`${day}-afternoon-travel`).classList.add('active');
+            }
+
+            // Update evening travel info if afternoon OR evening activity changes
+            const eveningActivity = selectedActivities[day].evening;
+            
+            if (afternoonActivity && eveningActivity) {
+                const afternoonLoc = activityLocations[day].afternoon[afternoonActivity];
+                const eveningLoc = activityLocations[day].evening[eveningActivity];
+                const key = `${afternoonLoc}-${eveningLoc}`;
+                
+                const info = travelInfo[key] || { distance: 'N/A', time: 'N/A', terrain: 'N/A' };
+                
+                document.getElementById(`${day}-evening-distance`).textContent = info.distance;
+                document.getElementById(`${day}-evening-time`).textContent = info.time;
+                document.getElementById(`${day}-evening-terrain`).textContent = info.terrain;
+                document.getElementById(`${day}-evening-travel`).classList.add('active');
+            }
+        }
+
+        // Update map with selected route
+        function updateMap(day) {
+            const map = maps[day];
+            
+            // Clear existing route
+            map.eachLayer(layer => {
+                if (layer instanceof L.Polyline || (layer instanceof L.Marker && !layer.options.permanent)) {
+                    map.removeLayer(layer);
+                }
+            });
+            
+            // Add hotel marker (permanent)
+            L.marker([locations.hotel.lat, locations.hotel.lng], { permanent: true })
+                .addTo(map)
+                .bindPopup('<strong>Your Hotel</strong><br>TUI SUNEO Althea Village');
+            
+            // Build route points
+            const routePoints = [[locations.hotel.lat, locations.hotel.lng]];
+            const markers = [];
+            
+            ['morning', 'afternoon', 'evening'].forEach(period => {
+                const activity = selectedActivities[day][period];
+                if (activity) {
+                    const locKey = activityLocations[day][period][activity];
+                    const loc = locations[locKey];
+                    routePoints.push([loc.lat, loc.lng]);
+                    
+                    const marker = L.marker([loc.lat, loc.lng])
+                        .addTo(map)
+                        .bindPopup(`<strong>${loc.name}</strong><br>${period.charAt(0).toUpperCase() + period.slice(1)} activity`);
+                    markers.push(marker);
+                }
+            });
+            
+            // Add route line if there are selected activities
+            if (routePoints.length > 1) {
+                L.polyline(routePoints, {
+                    color: '#667eea',
+                    weight: 4,
+                    opacity: 0.7,
+                    smoothFactor: 1
+                }).addTo(map);
+                
+                // Fit map to show all points
+                const bounds = L.latLngBounds(routePoints);
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
+        }
+
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.closest('.tab-button').classList.add('active');
+            
+            // Invalidate map size (fixes display issues when switching tabs)
+            setTimeout(() => {
+                if (maps[tabName]) {
+                    maps[tabName].invalidateSize();
+                }
+            }, 100);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeMaps();
+        });
+    </script>
+</body>
+</html>
