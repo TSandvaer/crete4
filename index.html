@@ -412,7 +412,7 @@
             text-align: center;
         }
 
-        #map-day1, #map-day2, #map-day3 {
+        #map-day1, #map-day2, #map-day3, #map-day4, #map-day5, #map-day6 {
             height: 500px;
             border-radius: 15px;
             overflow: hidden;
@@ -483,7 +483,7 @@
     <div class="header">
         <div class="header-content">
             <h1>Crete Paradise Adventure</h1>
-            <p>3 Days of Sun, Culture & Unforgettable Memories</p>
+            <p>6 Days of Sun, Culture & Unforgettable Memories</p>
         </div>
     </div>
 
@@ -498,6 +498,15 @@
             </button>
             <button class="tab-button" onclick="showTab('day3')">
                 <span>🏖️ Day 3: Hidden Gems</span>
+            </button>
+            <button class="tab-button" onclick="showTab('day4')">
+                <span>🏛️ Day 4: South Coast Adventure</span>
+            </button>
+            <button class="tab-button" onclick="showTab('day5')">
+                <span>🏺 Day 5: Eastern Exploration</span>
+            </button>
+            <button class="tab-button" onclick="showTab('day6')">
+                <span>⛰️ Day 6: Northern Gems</span>
             </button>
         </div>
     </div>
@@ -1363,12 +1372,876 @@
         </div>
     </div>
 
+    <!-- Day 4 Content -->
+    <div id="day4" class="tab-content">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day4', 'morning', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Preveli Monastery" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Preveli Monastery & Beach</h3>
+                        <p class="activity-description">Historic 17th-century monastery with palm forest beach below. Unique river mouth landscape with natural pools.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 65km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🏛️ Monastery & beach</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Combines culture and beach</li>
+                                    <li>Unique palm forest setting</li>
+                                    <li>Historical significance</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Steep walk to beach</li>
+                                    <li>Limited facilities</li>
+                                    <li>Can be crowded</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Preveli+Monastery+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g1190498-d554816-Reviews-Preveli_Monastery-Preveli_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day4', 'morning', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Kotsifou Canyon" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Kotsifou Canyon Drive</h3>
+                        <p class="activity-description">Spectacular canyon drive with dramatic cliff formations. Easy scenic route with multiple viewpoints.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 55km from hotel</div>
+                            <div class="detail-item">🚗 50min drive</div>
+                            <div class="detail-item">🏔️ Scenic driving</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Spectacular scenery</li>
+                                    <li>Easy car access</li>
+                                    <li>Multiple photo stops</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No beach or culture</li>
+                                    <li>Drive-through experience</li>
+                                    <li>Less interactive</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Kotsifou+Canyon+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189418-d12913095-Reviews-Kotsifou_Canyon-Rethymnon_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day4-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day4', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1595837625675-37a3ac8a9e1c?w=600" alt="Plakias Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Plakias Beach</h3>
+                        <p class="activity-description">Long sandy beach with clear waters and mountain backdrop. Excellent swimming and sunbathing spot.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 72km from hotel</div>
+                            <div class="detail-item">🚗 1h 10min drive</div>
+                            <div class="detail-item">🏖️ Sandy beach</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Long stretches of sand</li>
+                                    <li>Good facilities</li>
+                                    <li>Mountain scenery</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Can be windy</li>
+                                    <li>Developed resort area</li>
+                                    <li>Less secluded</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Plakias+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g670439-d2438527-Reviews-Plakias_Beach-Plakias_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day4', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Damnoni Beach" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Damnoni Beach</h3>
+                        <p class="activity-description">Quieter beach with crystal-clear waters surrounded by cliffs. More secluded and less crowded alternative.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 70km from hotel</div>
+                            <div class="detail-item">🚗 1h 5min drive</div>
+                            <div class="detail-item">🏖️ Secluded cove</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>More peaceful setting</li>
+                                    <li>Crystal clear water</li>
+                                    <li>Dramatic cliff scenery</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Smaller beach area</li>
+                                    <li>Limited facilities</li>
+                                    <li>Harder to access</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Damnoni+Beach+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g670439-d2438524-Reviews-Damnoni_Beach-Plakias_Rethymnon_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day4-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day4-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day4', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1585828922344-7909af339e7f?w=600" alt="Spili Village" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Spili Traditional Village</h3>
+                        <p class="activity-description">Charming mountain village famous for Venetian fountain with lion heads. Traditional tavernas and local atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 50km from hotel</div>
+                            <div class="detail-item">🚗 45min drive</div>
+                            <div class="detail-item">🏘️ Mountain village</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Authentic village atmosphere</li>
+                                    <li>Famous lion fountain</li>
+                                    <li>Traditional architecture</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Mountain location (no sea)</li>
+                                    <li>Limited restaurant options</li>
+                                    <li>Can be quiet evening</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Spili+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g670441-Spili_Rethymnon_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day4', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Plakias Village" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Plakias Village Tavernas</h3>
+                        <p class="activity-description">Seaside village with waterfront restaurants. Fresh seafood and sunset views over the Libyan Sea.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 72km from hotel</div>
+                            <div class="detail-item">🚗 1h 10min drive</div>
+                            <div class="detail-item">🌅 Seaside dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Seaside sunset location</li>
+                                    <li>Fresh seafood options</li>
+                                    <li>Beach-to-table dining</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Further drive back</li>
+                                    <li>Tourist-oriented</li>
+                                    <li>Less authentic</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Plakias+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g670439-Plakias_Rethymnon_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 4 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 4 Route</h3>
+            <div id="map-day4"></div>
+        </div>
+    </div>
+
+    <!-- Day 5 Content -->
+    <div id="day5" class="tab-content">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day5', 'morning', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Lassithi Plateau" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Lassithi Plateau & Dikteon Cave</h3>
+                        <p class="activity-description">High mountain plateau with traditional windmills and cave where Zeus was born. 5km easy hiking trail around plateau.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 85km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🥾 5km easy hike</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Mythological significance</li>
+                                    <li>Unique plateau landscape</li>
+                                    <li>Traditional windmills</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Long drive required</li>
+                                    <li>Cave entry fee</li>
+                                    <li>Mountain weather dependent</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Lassithi+Plateau+Dikteon+Cave+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189417-d195369-Reviews-Dikteon_Cave-Lasithi_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day5', 'morning', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Knossos Palace" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Knossos Palace Archaeological Site</h3>
+                        <p class="activity-description">Europe's oldest city and center of Minoan civilization. Famous for the Minotaur labyrinth myth.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 75km from hotel</div>
+                            <div class="detail-item">🚗 55min drive</div>
+                            <div class="detail-item">🏛️ Archaeological site</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>World-famous historical site</li>
+                                    <li>Minoan civilization</li>
+                                    <li>Excellent reconstructions</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Very touristy</li>
+                                    <li>No hiking component</li>
+                                    <li>Can be crowded</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Knossos+Palace+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g635616-d190720-Reviews-The_Palace_of_Knossos-Heraklion_Heraklion_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day5-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day5', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Agios Nikolaos" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Agios Nikolaos & Lake Voulismeni</h3>
+                        <p class="activity-description">Picturesque town built around a bottomless lake connected to the sea. Charming cafes and local shops.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 95km from hotel</div>
+                            <div class="detail-item">🚗 1h 15min drive</div>
+                            <div class="detail-item">🏞️ Lake town</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Unique lake setting</li>
+                                    <li>Charming architecture</li>
+                                    <li>Good shopping options</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Can be touristy</li>
+                                    <li>Limited beach access</li>
+                                    <li>Higher prices</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Agios+Nikolaos+Lake+Voulismeni+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g189417-Agios_Nikolaos_Lasithi_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day5', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Heraklion" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Heraklion Old Town & Fortress</h3>
+                        <p class="activity-description">Crete's capital with Venetian harbor, fortress, and excellent museums. Rich history and vibrant atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 78km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🏰 Historic city</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Rich cultural offerings</li>
+                                    <li>Venetian fortress</li>
+                                    <li>Excellent museums</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Large city atmosphere</li>
+                                    <li>Traffic and parking</li>
+                                    <li>Less intimate setting</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Heraklion+Old+Town+Fortress+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g189416-Heraklion_Heraklion_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day5-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day5-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day5', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Elounda" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Elounda Waterfront Dining</h3>
+                        <p class="activity-description">Upscale fishing village with luxury resorts and excellent seafood restaurants. Beautiful sunset views over Mirabello Bay.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 102km from hotel</div>
+                            <div class="detail-item">🚗 1h 20min drive</div>
+                            <div class="detail-item">🌅 Luxury waterfront</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Stunning bay views</li>
+                                    <li>High-end dining</li>
+                                    <li>Romantic atmosphere</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Expensive dining</li>
+                                    <li>Long drive back</li>
+                                    <li>Very upscale (dress code)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Elounda+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g189419-Elounda_Lasithi_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day5', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Hersonissos" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Hersonissos Traditional Tavernas</h3>
+                        <p class="activity-description">Local fishing village with authentic tavernas serving traditional Cretan dishes. More affordable and relaxed atmosphere.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 85km from hotel</div>
+                            <div class="detail-item">🚗 1h 5min drive</div>
+                            <div class="detail-item">🍽️ Traditional dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Authentic local cuisine</li>
+                                    <li>Reasonable prices</li>
+                                    <li>Closer to hotel</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Less scenic setting</li>
+                                    <li>More developed area</li>
+                                    <li>Tourist resort nearby</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Hersonissos+Traditional+Tavernas+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g189420-Hersonissos_Heraklion_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 5 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 5 Route</h3>
+            <div id="map-day5"></div>
+        </div>
+    </div>
+
+    <!-- Day 6 Content -->
+    <div id="day6" class="tab-content">
+        <!-- Morning -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">☀️</div>
+                <h2 class="time-title">Morning (9:00 AM - 12:00 PM)</h2>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day6', 'morning', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1585828922344-7909af339e7f?w=600" alt="Imbros Gorge" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Imbros Gorge Hike</h3>
+                        <p class="activity-description">Beautiful 6km hike through narrow canyon with high walls. Easier alternative to Samaria Gorge with stunning scenery.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 50km from hotel</div>
+                            <div class="detail-item">🚗 45min drive</div>
+                            <div class="detail-item">🥾 6km moderate hike</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐⭐ 4.5/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Perfect 6km hiking distance</li>
+                                    <li>Spectacular narrow gorge</li>
+                                    <li>Less crowded than Samaria</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>One-way hike (need transport)</li>
+                                    <li>Rocky terrain</li>
+                                    <li>Limited shade</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Imbros+Gorge+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d670440-Reviews-Imbros_Gorge-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day6', 'morning', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Agia Triada Monastery" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Agia Triada Monastery & Olive Groves</h3>
+                        <p class="activity-description">Beautiful 17th-century monastery with working olive groves. Short walk through ancient olive trees and monastery grounds.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 25km from hotel</div>
+                            <div class="detail-item">🚗 30min drive</div>
+                            <div class="detail-item">🚶 2km easy walk</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Much closer to hotel</li>
+                                    <li>Historical significance</li>
+                                    <li>Olive oil tasting</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Shorter walking distance</li>
+                                    <li>Less dramatic scenery</li>
+                                    <li>Religious site restrictions</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Agia+Triada+Monastery+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g189415-d554772-Reviews-Agia_Triada_Monastery-Chania_Town_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Afternoon -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌞</div>
+                <h2 class="time-title">Afternoon (1:00 PM - 5:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day6-afternoon-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-afternoon-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-afternoon-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-afternoon-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day6', 'afternoon', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Hora Sfakion" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Hora Sfakion Coastal Village</h3>
+                        <p class="activity-description">Traditional fishing village at the end of Imbros Gorge. Historic resistance stronghold with authentic architecture.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 58km from hotel</div>
+                            <div class="detail-item">🚗 1h drive</div>
+                            <div class="detail-item">🏘️ Coastal village</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Authentic fishing village</li>
+                                    <li>Historical significance</li>
+                                    <li>Dramatic coastal setting</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Remote location</li>
+                                    <li>Limited facilities</li>
+                                    <li>Winding mountain road</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Hora+Sfakion+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g12887530-Hora_Sfakion_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day6', 'afternoon', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Fragokastello" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Fragokastello Venetian Fortress</h3>
+                        <p class="activity-description">14th-century Venetian fortress on a beautiful beach. Historic castle with great swimming opportunity.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 70km from hotel</div>
+                            <div class="detail-item">🚗 1h 15min drive</div>
+                            <div class="detail-item">🏰 Castle & beach</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Unique castle on beach</li>
+                                    <li>Swimming opportunity</li>
+                                    <li>Photogenic setting</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Further drive</li>
+                                    <li>Can be windy</li>
+                                    <li>Limited historical context</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Fragokastello+Fortress+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Attraction_Review-g12887530-d670436-Reviews-Frangokastello_Castle-Hora_Sfakion_Chania_Prefecture_Crete.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evening -->
+        <div class="day-section">
+            <div class="time-header">
+                <div class="time-icon">🌅</div>
+                <h2 class="time-title">Evening (6:00 PM - 10:00 PM)</h2>
+            </div>
+            <div class="travel-info" id="day6-evening-travel">
+                <div class="travel-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-evening-distance">--</div>
+                        <div class="stat-label">Distance</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-evening-time">--</div>
+                        <div class="stat-label">Travel Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="day6-evening-terrain">--</div>
+                        <div class="stat-label">Terrain</div>
+                    </div>
+                </div>
+            </div>
+            <div class="activities">
+                <div class="activity-card" onclick="selectActivity('day6', 'evening', 'primary', this)">
+                    <img src="https://images.unsplash.com/photo-1590497006165-6e60a36dcb96?w=600" alt="Paleochora" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">PRIMARY</span>
+                        <h3 class="activity-title">Paleochora Seaside Tavernas</h3>
+                        <p class="activity-description">Charming seaside town with excellent seafood restaurants. Beautiful sunset views over the Libyan Sea from waterfront tavernas.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 75km from hotel</div>
+                            <div class="detail-item">🚗 1h 20min drive</div>
+                            <div class="detail-item">🌅 Sunset dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Spectacular sunset views</li>
+                                    <li>Fresh seafood</li>
+                                    <li>Authentic coastal town</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>Long drive back</li>
+                                    <li>Limited evening transport</li>
+                                    <li>Can be windy</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Paleochora+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g1219671-Paleochora_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="activity-card" onclick="selectActivity('day6', 'evening', 'secondary', this)">
+                    <img src="https://images.unsplash.com/photo-1590413768140-18b9f9c6c9aa?w=600" alt="Kandanos" class="activity-image">
+                    <div class="activity-content">
+                        <span class="activity-badge">SECONDARY</span>
+                        <h3 class="activity-title">Kandanos Mountain Village</h3>
+                        <p class="activity-description">Traditional mountain village with authentic tavernas. Historic village known for resistance during WWII.</p>
+                        <div class="activity-details">
+                            <div class="detail-item">📍 45km from hotel</div>
+                            <div class="detail-item">🚗 40min drive</div>
+                            <div class="detail-item">🏘️ Mountain dining</div>
+                        </div>
+                        <div class="rating">⭐⭐⭐⭐ 4.0/5 TripAdvisor</div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Pros vs Alternative:</h4>
+                                <ul>
+                                    <li>Closer to hotel</li>
+                                    <li>Authentic village atmosphere</li>
+                                    <li>Traditional mountain cuisine</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Cons vs Alternative:</h4>
+                                <ul>
+                                    <li>No sea views</li>
+                                    <li>Limited restaurant options</li>
+                                    <li>Mountain setting (no sunset)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="https://maps.google.com/?q=Kandanos+Village+Crete" target="_blank" class="btn btn-primary">📍 Google Maps</a>
+                            <a href="https://www.tripadvisor.com/Tourism-g8442043-Kandanos_Chania_Prefecture_Crete-Vacations.html" target="_blank" class="btn btn-secondary">TripAdvisor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map for Day 6 -->
+        <div class="map-container">
+            <h3 class="map-header">📍 Your Day 6 Route</h3>
+            <div id="map-day6"></div>
+        </div>
+    </div>
+
     <script>
         // Activity selection state
         const selectedActivities = {
             day1: { morning: null, afternoon: null, evening: null },
             day2: { morning: null, afternoon: null, evening: null },
-            day3: { morning: null, afternoon: null, evening: null }
+            day3: { morning: null, afternoon: null, evening: null },
+            day4: { morning: null, afternoon: null, evening: null },
+            day5: { morning: null, afternoon: null, evening: null },
+            day6: { morning: null, afternoon: null, evening: null }
         };
 
         // Location coordinates
@@ -1394,7 +2267,28 @@
             seitan: { lat: 35.5742, lng: 24.0731, name: "Seitan Limania" },
             loutraki: { lat: 35.5253, lng: 24.0831, name: "Loutraki Beach" },
             tersanas: { lat: 35.5269, lng: 24.0894, name: "Tersanas Village" },
-            kalathas: { lat: 35.5575, lng: 24.0869, name: "Kalathas Beach" }
+            kalathas: { lat: 35.5575, lng: 24.0869, name: "Kalathas Beach" },
+            // Day 4
+            preveli: { lat: 35.1555, lng: 24.4761, name: "Preveli Monastery" },
+            kotsifou: { lat: 35.2397, lng: 24.4008, name: "Kotsifou Canyon" },
+            plakias: { lat: 35.1961, lng: 24.4025, name: "Plakias Beach" },
+            damnoni: { lat: 35.1819, lng: 24.4136, name: "Damnoni Beach" },
+            spili: { lat: 35.2092, lng: 24.5283, name: "Spili Village" },
+            plakias_village: { lat: 35.1961, lng: 24.4025, name: "Plakias Village" },
+            // Day 5
+            lassithi: { lat: 35.1831, lng: 25.4897, name: "Lassithi Plateau" },
+            knossos: { lat: 35.2981, lng: 25.1631, name: "Knossos Palace" },
+            agios_nikolaos: { lat: 35.1908, lng: 25.7164, name: "Agios Nikolaos" },
+            heraklion: { lat: 35.3387, lng: 25.1442, name: "Heraklion" },
+            elounda: { lat: 35.2553, lng: 25.7286, name: "Elounda" },
+            hersonissos: { lat: 35.3208, lng: 25.3908, name: "Hersonissos" },
+            // Day 6
+            imbros: { lat: 35.2592, lng: 24.1753, name: "Imbros Gorge" },
+            agia_triada: { lat: 35.4539, lng: 24.0653, name: "Agia Triada Monastery" },
+            hora_sfakion: { lat: 35.2058, lng: 24.1347, name: "Hora Sfakion" },
+            fragokastello: { lat: 35.1939, lng: 24.1558, name: "Fragokastello" },
+            paleochora: { lat: 35.2306, lng: 23.6747, name: "Paleochora" },
+            kandanos: { lat: 35.3319, lng: 23.7367, name: "Kandanos" }
         };
 
         // Activity location mapping
@@ -1413,6 +2307,21 @@
                 morning: { primary: 'samaria', secondary: 'botanical' },
                 afternoon: { primary: 'seitan', secondary: 'loutraki' },
                 evening: { primary: 'tersanas', secondary: 'kalathas' }
+            },
+            day4: {
+                morning: { primary: 'preveli', secondary: 'kotsifou' },
+                afternoon: { primary: 'plakias', secondary: 'damnoni' },
+                evening: { primary: 'spili', secondary: 'plakias_village' }
+            },
+            day5: {
+                morning: { primary: 'lassithi', secondary: 'knossos' },
+                afternoon: { primary: 'agios_nikolaos', secondary: 'heraklion' },
+                evening: { primary: 'elounda', secondary: 'hersonissos' }
+            },
+            day6: {
+                morning: { primary: 'imbros', secondary: 'agia_triada' },
+                afternoon: { primary: 'hora_sfakion', secondary: 'fragokastello' },
+                evening: { primary: 'paleochora', secondary: 'kandanos' }
             }
         };
 
@@ -1441,14 +2350,41 @@
             'seitan-tersanas': { distance: '11km', time: '18min', terrain: 'Coastal road' },
             'seitan-kalathas': { distance: '9km', time: '15min', terrain: 'Coastal road' },
             'loutraki-tersanas': { distance: '8km', time: '12min', terrain: 'Local roads' },
-            'loutraki-kalathas': { distance: '6km', time: '10min', terrain: 'Local roads' }
+            'loutraki-kalathas': { distance: '6km', time: '10min', terrain: 'Local roads' },
+            // Day 4
+            'preveli-plakias': { distance: '8km', time: '15min', terrain: 'Coastal road' },
+            'preveli-damnoni': { distance: '6km', time: '12min', terrain: 'Mountain road' },
+            'kotsifou-plakias': { distance: '25km', time: '30min', terrain: 'Mountain road' },
+            'kotsifou-damnoni': { distance: '23km', time: '28min', terrain: 'Mountain road' },
+            'plakias-spili': { distance: '30km', time: '35min', terrain: 'Mountain road' },
+            'plakias-plakias_village': { distance: '0km', time: '2min', terrain: 'Walking' },
+            'damnoni-spili': { distance: '32km', time: '38min', terrain: 'Mountain road' },
+            'damnoni-plakias_village': { distance: '2km', time: '5min', terrain: 'Local road' },
+            // Day 5
+            'lassithi-agios_nikolaos': { distance: '35km', time: '40min', terrain: 'Mountain road' },
+            'lassithi-heraklion': { distance: '55km', time: '1h', terrain: 'Highway' },
+            'knossos-agios_nikolaos': { distance: '65km', time: '50min', terrain: 'Highway' },
+            'knossos-heraklion': { distance: '5km', time: '10min', terrain: 'City road' },
+            'agios_nikolaos-elounda': { distance: '12km', time: '15min', terrain: 'Coastal road' },
+            'agios_nikolaos-hersonissos': { distance: '35km', time: '35min', terrain: 'Coastal road' },
+            'heraklion-elounda': { distance: '75km', time: '1h 10min', terrain: 'Highway & coastal' },
+            'heraklion-hersonissos': { distance: '28km', time: '25min', terrain: 'Highway' },
+            // Day 6
+            'imbros-hora_sfakion': { distance: '8km', time: '15min', terrain: 'Mountain road' },
+            'imbros-fragokastello': { distance: '20km', time: '25min', terrain: 'Mountain road' },
+            'agia_triada-hora_sfakion': { distance: '45km', time: '50min', terrain: 'Mountain road' },
+            'agia_triada-fragokastello': { distance: '55km', time: '1h 5min', terrain: 'Mountain road' },
+            'hora_sfakion-paleochora': { distance: '45km', time: '1h', terrain: 'Mountain road' },
+            'hora_sfakion-kandanos': { distance: '25km', time: '35min', terrain: 'Mountain road' },
+            'fragokastello-paleochora': { distance: '35km', time: '45min', terrain: 'Mountain road' },
+            'fragokastello-kandanos': { distance: '35km', time: '40min', terrain: 'Mountain road' }
         };
 
         // Initialize maps
         let maps = {};
 
         function initializeMaps() {
-            ['day1', 'day2', 'day3'].forEach(day => {
+            ['day1', 'day2', 'day3', 'day4', 'day5', 'day6'].forEach(day => {
                 const mapId = `map-${day}`;
                 maps[day] = L.map(mapId).setView([locations.hotel.lat, locations.hotel.lng], 10);
                 
