@@ -518,6 +518,15 @@
         }
 
         /* Responsive Design */
+        /* Mobile-first responsive design */
+        .tab-short {
+            display: none;
+        }
+
+        .tab-full {
+            display: inline;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.5rem;
@@ -528,21 +537,36 @@
             }
 
             .tabs {
-                flex-direction: column;
-                gap: 0.75rem;
+                flex-direction: row;
+                gap: 0.5rem;
+                justify-content: space-between;
             }
 
             .tab-button {
-                width: 100%;
-                min-width: auto;
-                white-space: normal;
-                text-align: center;
-                font-size: 1rem;
-                padding: 1rem 1.5rem;
+                flex: 1;
+                min-width: 60px;
+                max-width: 80px;
+                padding: 1rem 0.5rem;
+                font-size: 1.4rem;
+                font-weight: 700;
+                border-radius: 20px;
+            }
+
+            /* Show short version, hide full version on mobile */
+            .tab-short {
+                display: inline;
+            }
+
+            .tab-full {
+                display: none;
             }
 
             .pros-cons {
                 grid-template-columns: 1fr;
+            }
+
+            .tab-container {
+                padding: 1.5rem 1rem;
             }
         }
 
@@ -599,22 +623,28 @@
     <div class="tab-container">
         <div class="tabs">
             <button class="tab-button active" onclick="showTab('day1')">
-                <span>🌅 Day 1: West Coast Wonders</span>
+                <span class="tab-full">🌅 Day 1: West Coast Wonders</span>
+                <span class="tab-short">1</span>
             </button>
             <button class="tab-button" onclick="showTab('day2')">
-                <span>🏛️ Day 2: Culture & Beaches</span>
+                <span class="tab-full">🏛️ Day 2: Culture & Beaches</span>
+                <span class="tab-short">2</span>
             </button>
             <button class="tab-button" onclick="showTab('day3')">
-                <span>🏖️ Day 3: Hidden Gems</span>
+                <span class="tab-full">🏖️ Day 3: Hidden Gems</span>
+                <span class="tab-short">3</span>
             </button>
             <button class="tab-button" onclick="showTab('day4')">
-                <span>🏛️ Day 4: South Coast Adventure</span>
+                <span class="tab-full">🏛️ Day 4: South Coast Adventure</span>
+                <span class="tab-short">4</span>
             </button>
             <button class="tab-button" onclick="showTab('day5')">
-                <span>🏺 Day 5: Eastern Exploration</span>
+                <span class="tab-full">🏺 Day 5: Eastern Exploration</span>
+                <span class="tab-short">5</span>
             </button>
             <button class="tab-button" onclick="showTab('day6')">
-                <span>⛰️ Day 6: Northern Gems</span>
+                <span class="tab-full">⛰️ Day 6: Northern Gems</span>
+                <span class="tab-short">6</span>
             </button>
         </div>
     </div>
