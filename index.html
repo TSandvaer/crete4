@@ -2734,9 +2734,13 @@
                 let routesProcessed = 0;
                 const totalRoutes = routePoints.length - 1;
                 
+                // Define unique colors for each route segment
+                const routeColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#F0B27A'];
+                
                 for (let i = 0; i < routePoints.length - 1; i++) {
                     const start = routePoints[i];
                     const end = routePoints[i + 1];
+                    const routeColor = routeColors[i % routeColors.length];
                     
                     // Use OSRM API for driving directions
                     const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`;
@@ -2753,22 +2757,22 @@
                                 
                                 // Draw the actual driving route following roads
                                 L.polyline(leafletCoords, {
-                                    color: '#D2691E',
+                                    color: routeColor,
                                     weight: 5,
                                     opacity: 0.9,
                                     smoothFactor: 1
                                 }).addTo(map);
                                 
-                                console.log(`✅ Drew driving route ${i + 1}/${totalRoutes}`);
+                                console.log(`✅ Drew driving route ${i + 1}/${totalRoutes} in color ${routeColor}`);
                             } else {
                                 // Fallback to dashed straight line if routing fails
                                 L.polyline([start, end], {
-                                    color: '#D2691E',
+                                    color: routeColor,
                                     weight: 4,
                                     opacity: 0.6,
                                     dashArray: '15, 10'
                                 }).addTo(map);
-                                console.log(`⚠️ Used fallback line for route ${i + 1}/${totalRoutes}`);
+                                console.log(`⚠️ Used fallback line for route ${i + 1}/${totalRoutes} in color ${routeColor}`);
                             }
                             
                             // Fit map and add labels when all routes are processed
