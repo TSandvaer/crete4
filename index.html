@@ -2646,18 +2646,124 @@
                 }
             });
             
-            // Add route line if there are selected activities
+            // Add driving routes if there are selected activities
             if (routePoints.length > 1) {
-                L.polyline(routePoints, {
-                    color: '#667eea',
-                    weight: 4,
-                    opacity: 0.7,
-                    smoothFactor: 1
-                }).addTo(map);
+                console.log('Drawing driving routes for', routePoints.length, 'points');
                 
-                // Fit map to show all points
-                const bounds = L.latLngBounds(routePoints);
-                map.fitBounds(bounds, { padding: [50, 50] });
+                // Draw real driving routes between consecutive points
+                let routesProcessed = 0;
+                const totalRoutes = routePoints.length - 1;
+                
+                for (let i = 0; i < routePoints.length - 1; i++) {
+                    const start = routePoints[i];
+                    const end = routePoints[i + 1];
+                    
+                    // Use OSRM API for driving directions
+                    const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`;
+                    
+                    fetch(osrmUrl)
+                        .then(response => response.json())
+                        .then(data => {
+                            routesProcessed++;
+                            
+                            if (data.routes && data.routes.length > 0 && data.routes[0].geometry) {
+                                const coordinates = data.routes[0].geometry.coordinates;
+                                // Convert [lng,lat] to [lat,lng] for Leaflet
+                                const leafletCoords = coordinates.map(coord => [coord[1], coord[0]]);
+                                
+                                // Draw the actual driving route following roads
+                                L.polyline(leafletCoords, {
+                                    color: '#D2691E',
+                                    weight: 5,
+                                    opacity: 0.9,
+                                    smoothFactor: 1
+                                }).addTo(map);
+                                
+                                console.log(`✅ Drew driving route ${i + 1}/${totalRoutes}`);
+                            } else {
+                                // Fallback to dashed straight line if routing fails
+                                L.polyline([start, end], {
+                                    color: '#D2691E',
+                                    weight: 4,
+                                    opacity: 0.6,
+                                    dashArray: '15, 10'
+                                }).addTo(map);
+                                console.log(`⚠️ Used fallback line for route ${i + 1}/${totalRoutes}`);
+                            }
+                            
+                            // Fit map and add labels when all routes are processed
+                            if (routesProcessed === totalRoutes) {
+                                addTravelLabelsAndFitMap();
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`❌ Route ${i + 1} failed:`, error);
+                            routesProcessed++;
+                            
+                            // Fallback to dashed straight line
+                            L.polyline([start, end], {
+                                color: '#D2691E',
+                                weight: 4,
+                                opacity: 0.6,
+                                dashArray: '15, 10'
+                            }).addTo(map);
+                            
+                            if (routesProcessed === totalRoutes) {
+                                addTravelLabelsAndFitMap();
+                            }
+                        });
+                }
+                
+                // Function to add labels and fit map
+                function addTravelLabelsAndFitMap() {
+                    // Fit map to show all points
+                    const bounds = L.latLngBounds(routePoints);
+                    map.fitBounds(bounds, { padding: [60, 60] });
+                    
+                    // Add travel labels between route segments
+                    const locationKeys = ['hotel'];
+                    ['morning', 'afternoon', 'evening'].forEach(period => {
+                        const activity = selectedActivities[day][period];
+                        if (activity) {
+                            const locKey = activityLocations[day][period][activity];
+                            locationKeys.push(locKey);
+                        }
+                    });
+
+                    // Create distance/time labels for each segment
+                    for (let i = 0; i < locationKeys.length - 1; i++) {
+                        const fromKey = locationKeys[i];
+                        const toKey = locationKeys[i + 1];
+                        const fromCoords = fromKey === 'hotel' ? 
+                            [locations.hotel.lat, locations.hotel.lng] : 
+                            [locations[fromKey].lat, locations[fromKey].lng];
+                        const toCoords = [locations[toKey].lat, locations[toKey].lng];
+                        
+                        const travel = getTravelInfo(fromKey, toKey);
+                        const midpoint = getMidpoint(fromCoords[0], fromCoords[1], toCoords[0], toCoords[1]);
+                        
+                        // Create travel label with car icon
+                        const labelText = `🚗 ${travel.distance} • ${travel.time}`;
+                        L.marker(midpoint, {
+                            icon: L.divIcon({
+                                html: `<div class="travel-label">${labelText}</div>`,
+                                className: 'travel-label-marker',
+                                iconSize: [130, 26],
+                                iconAnchor: [65, 13]
+                            })
+                        }).addTo(map);
+                    }
+                    
+                    console.log('✅ Added all travel labels and fitted map');
+                }
+                
+                // Safety timeout in case some routes fail to load
+                setTimeout(() => {
+                    if (routesProcessed < totalRoutes) {
+                        console.log('⏰ Timeout: Adding labels with partial routes');
+                        addTravelLabelsAndFitMap();
+                    }
+                }, 5000);
             }
         }
 
