@@ -610,6 +610,45 @@
             border: 2px solid rgba(255,248,220,0.8) !important;
             backdrop-filter: blur(8px) !important;
         }
+
+        /* Custom map marker styles - icons only */
+        .custom-marker-container {
+            background: none !important;
+            border: none !important;
+        }
+
+        .marker-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,248,220,0.9);
+            backdrop-filter: blur(4px);
+        }
+
+        .hotel-marker {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+            color: #FFF8DC;
+        }
+
+        .morning-marker {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #8B4513;
+        }
+
+        .afternoon-marker {
+            background: linear-gradient(135deg, #FF6347, #FF4500);
+            color: #FFF8DC;
+        }
+
+        .evening-marker {
+            background: linear-gradient(135deg, #4B0082, #8A2BE2);
+            color: #FFF8DC;
+        }
     </style>
 </head>
 <body>
@@ -2550,8 +2589,16 @@
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(maps[day]);
 
-                // Add hotel marker
-                L.marker([locations.hotel.lat, locations.hotel.lng])
+                // Add hotel marker with custom icon
+                const hotelIcon = L.divIcon({
+                    html: `<div class="marker-icon hotel-marker">🏨</div>`,
+                    className: 'custom-marker-container',
+                    iconSize: [40, 40],
+                    iconAnchor: [20, 40],
+                    popupAnchor: [0, -40]
+                });
+                
+                L.marker([locations.hotel.lat, locations.hotel.lng], { icon: hotelIcon })
                     .addTo(maps[day])
                     .bindPopup('<strong>Your Hotel</strong><br>TUI SUNEO Althea Village');
             });
@@ -2623,8 +2670,16 @@
                 }
             });
             
-            // Add hotel marker (permanent)
-            L.marker([locations.hotel.lat, locations.hotel.lng], { permanent: true })
+            // Add hotel marker (permanent) with custom icon
+            const hotelIcon = L.divIcon({
+                html: `<div class="marker-icon hotel-marker">🏨</div>`,
+                className: 'custom-marker-container',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -40]
+            });
+            
+            L.marker([locations.hotel.lat, locations.hotel.lng], { permanent: true, icon: hotelIcon })
                 .addTo(map)
                 .bindPopup('<strong>Your Hotel</strong><br>TUI SUNEO Althea Village');
             
@@ -2639,7 +2694,32 @@
                     const loc = locations[locKey];
                     routePoints.push([loc.lat, loc.lng]);
                     
-                    const marker = L.marker([loc.lat, loc.lng])
+                    // Create custom icon based on period
+                    let iconEmoji, markerClass;
+                    switch(period) {
+                        case 'morning':
+                            iconEmoji = '☀️';
+                            markerClass = 'morning-marker';
+                            break;
+                        case 'afternoon':
+                            iconEmoji = '🌞';
+                            markerClass = 'afternoon-marker';
+                            break;
+                        case 'evening':
+                            iconEmoji = '🌅';
+                            markerClass = 'evening-marker';
+                            break;
+                    }
+                    
+                    const activityIcon = L.divIcon({
+                        html: `<div class="marker-icon ${markerClass}">${iconEmoji}</div>`,
+                        className: 'custom-marker-container',
+                        iconSize: [40, 40],
+                        iconAnchor: [20, 40],
+                        popupAnchor: [0, -40]
+                    });
+                    
+                    const marker = L.marker([loc.lat, loc.lng], { icon: activityIcon })
                         .addTo(map)
                         .bindPopup(`<strong>${loc.name}</strong><br>${period.charAt(0).toUpperCase() + period.slice(1)} activity`);
                     markers.push(marker);
